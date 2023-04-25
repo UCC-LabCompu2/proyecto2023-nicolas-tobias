@@ -39,6 +39,10 @@ body{
 .contacto a{
     color: #33107b;
     margin-right: 10px;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 #banner_img{
