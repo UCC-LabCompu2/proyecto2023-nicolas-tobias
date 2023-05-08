@@ -28,6 +28,8 @@ body{
     width: 100%;
     min-width: 480px;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tittle h1{
@@ -52,6 +54,8 @@ body{
     max-width: 1200px;
     min-width: 200px;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tittle h2{
