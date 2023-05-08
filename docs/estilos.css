@@ -201,11 +201,4 @@ body{
       /*RESPONSIVIDAD*/
 
       @media screen and (max-width: 900px){
-        .global_container {
-          .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 2fr);
-            grid-gap: 2vw;
-          }
-        }
       }
