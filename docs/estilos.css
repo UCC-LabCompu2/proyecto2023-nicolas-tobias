@@ -207,5 +207,6 @@ body{
             grid-template-columns: repeat(3, 2fr);
             grid-gap: 2vw;
           }
+          justify-content: space-between;
         }
       }
