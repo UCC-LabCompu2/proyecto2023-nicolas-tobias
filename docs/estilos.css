@@ -239,6 +239,10 @@ body{
           height: 6vw;
         }
 
+        .container img{
+          width: 3vw;
+        }
+
         /*ITEM RESPONSIVE*/
 
         .item img{
