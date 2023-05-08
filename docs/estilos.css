@@ -16,8 +16,6 @@ body{
 }
 
 .global_container {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   margin:0 auto;  
   justify-content: center;
@@ -74,7 +72,7 @@ body{
     font-size: 3vw;
     padding: 10px 20px;
     color: rgba(250, 253, 255, 0.747);
-    border: 2px solid rgba(250, 253, 255, 0.747);
+    border: 2px solid rgba(30, 32, 34, 0.747);
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
     text-decoration: none;
     animation: move_banner_a 2s ease-in-out infinite;
