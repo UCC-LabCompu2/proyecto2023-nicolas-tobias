@@ -232,27 +232,17 @@ body{
           height: auto;
         }
 
-        .grid{
-          grid-gap: 2vw;
-        }
-
-        .circle {
-          width: 20%;
-          height: 20%;
-        }
-
-        .container img{
-          width: 7vw;
-          height: auto;
-        }
-
+        /*CIRCLE RESPONSIVE*/
         .container_2 {
-          display: grid;
-          grid-template-columns: repeat(9, 1fr);
-          grid-gap: 2vw;
+          grid-template-columns: repeat(3, 1fr);
+          grid-gap: 1vw;
         }
-
+      
+        .item:nth-child(10) {
+          grid-column: 2 / 3;
+          visibility: hidden;
+        }
+        
         /*ITEM RESPONSIVE*/
 
-        
       }
