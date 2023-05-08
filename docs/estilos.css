@@ -10,6 +10,8 @@ body{
     background-image: url(https://images6.alphacoders.com/846/846724.jpg);
     background-size: cover;
     background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .tittle{
@@ -194,49 +196,6 @@ body{
 
       /*RESPONSIVIDAD*/
 
-      /* Estilos CSS existentes */
-
-/* Agregar estilos para pantallas más pequeñas */
-
-@media screen and (max-width: 768px) {
-  .tittle {
-    width: 80%;
-  }
-
-  .tittle h1 {
-    font-size: 60px;
-  }
-
-  .tittle h2 {
-    font-size: 24px;
-  }
-
-  .banner_tittle a {
-    font-size: 30px;
-    margin-top: 20%;
-  }
-
-  .contacto a {
-    font-size: 16px;
-  }
-
-  .container {
-    top: -30px;
-  }
-
-  .visualizer img {
-    width: 70%;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .item img {
-    width: 80px;
-  }
-}
-
 @media screen and (max-width: 480px) {
   .tittle {
     width: 90%;
@@ -275,4 +234,3 @@ body{
     width: 60px;
   }
 }
-
