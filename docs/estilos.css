@@ -259,13 +259,11 @@ body{
 
         /*ITEM RESPONSIVE*/
         
-        .item {
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        .container_2 {
+          grid-template-columns: repeat(3, 1fr);
+          grid-gap: 1vw;
         }
-        
+      
         .item:nth-child(10) {
           grid-column: 2 / 3;
           visibility: hidden;
