@@ -237,9 +237,13 @@ body{
           height: auto;
         }
 
+        .grid{
+          grid-gap: 6vw;
+        }
+
         .circle {
-          width: 10vw;
-          height: 10vw;
+          width: 20%;
+          height: 20%;
         }
 
         .container img{
