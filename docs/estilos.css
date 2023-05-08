@@ -19,6 +19,8 @@ body{
   width: 100%;
   min-width: 480px;
   margin:0 auto;
+  justify-content: center;
+  align-items: center;
 }
 
 .tittle{
@@ -192,3 +194,9 @@ body{
       }
 
       /*RESPONSIVIDAD*/
+
+      @media screen and (max-width: 900px){
+        body{
+          background: #ff80ff;
+        }
+      }
