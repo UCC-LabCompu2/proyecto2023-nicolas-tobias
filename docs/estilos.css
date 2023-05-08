@@ -70,7 +70,7 @@ body{
     align-items: center;
     margin-top: 40%;
     font-size: 3vw;
-    padding: 10px 20px;
+    padding: 1vw 2vw;
     color: rgba(250, 253, 255, 0.747);
     border: 2px solid rgba(250, 253, 255, 0.747);
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
@@ -211,15 +211,18 @@ body{
           font-size: 18vw;
         }
       
+        .tittle h2 {
+          font-size: 6vw;
+        }
+
         .banner_tittle a {
           font-size: 8vw;
         }
       
         .contacto a {
           font-size: 6vw;
+          justify-content: center;
+          text-align: center;
         }
       
-        .tittle h2 {
-          font-size: 1vw;
-        }
       }
