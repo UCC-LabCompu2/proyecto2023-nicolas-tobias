@@ -232,11 +232,6 @@ body{
           height: auto;
         }
 
-        .circles{
-          width: 20vw;
-          height: auto;
-        }
-
         .grid{
           grid-gap: 6vw;
         }
