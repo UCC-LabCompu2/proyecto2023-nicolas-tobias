@@ -27,6 +27,7 @@ body{
 .tittle{
     width: 100%;
     min-width: 480px;
+    text-align: center;
 }
 
 .tittle h1{
@@ -50,6 +51,7 @@ body{
     margin: auto;
     max-width: 1200px;
     min-width: 200px;
+    text-align: center;
 }
 
 .tittle h2{
