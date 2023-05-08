@@ -140,11 +140,21 @@ body{
         justify-content: center;
       }
       
-      .circle {
+      .circles {
         border-radius: 50%;
         background-color: #0f0;
         margin: 1vw;
         align-self: center;
+      }
+      
+      .circle_1 {
+        width: 2vw;
+        height: auto;
+      }
+
+      .circle_2 {
+        width: 1vw;
+        height: auto;
       }
 
       /*items*/
@@ -226,12 +236,12 @@ body{
         /*SECOND RESPONSIVE*/
 
         .visualizer img{
-          width: 18vw;
+          width: 200vw;
           height: auto;
         }
 
         .circles{
-          width: 7vw;
+          width: 120vw;
           height: auto;
         }
 
