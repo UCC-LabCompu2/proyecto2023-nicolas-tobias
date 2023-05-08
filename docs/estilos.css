@@ -223,4 +223,24 @@ body{
           font-size: 6vw;
         }
       
+        /*SECOND RESPONSIVE*/
+
+        .visualizer img{
+          width: 18vw;
+          height: auto;
+        }
+
+        .circles{
+          width: 7vw;
+          height: auto;
+        }
+
+        .container img{
+          width: 7vw;
+          height: auto;
+        }
+
+        .item {
+          width: 7vw;
+        }
       }
