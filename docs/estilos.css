@@ -17,8 +17,7 @@ body{
 
 .global_container {
   width: 100%;
-  min-width: 480px;
-  margin:0 auto;
+  margin:0 auto;  
   justify-content: center;
   align-items: center;
 }
@@ -196,7 +195,11 @@ body{
       /*RESPONSIVIDAD*/
 
       @media screen and (max-width: 900px){
-        body{
-          background: #ff80ff;
+        .global_container {
+          .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 2fr);
+            grid-gap: 2vw;
+          }
         }
       }
