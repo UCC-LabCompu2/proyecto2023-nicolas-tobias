@@ -8,7 +8,7 @@ body{
     font-family: 'Montserrat', 'SansSerif';
     color: aliceblue;
     background-image: url(https://images6.alphacoders.com/846/846724.jpg);
-    background-size: 100% auto;
+    background-size: contain;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
