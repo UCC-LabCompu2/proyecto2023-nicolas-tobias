@@ -1,24 +1,29 @@
 // Arreglo de objetos Audio
 var audio = [
   new Audio('Aud/AudGuitar.mp3'),
-  new Audio('Aud/AudPiano.mp3'),
   new Audio('Aud/AudBass.mp3'),
-  new Audio('Aud/AudSynth.mp3'),
-  new Audio('Aud/AudOrgan.mp3'),
-  new Audio('Aud/AudTrumpet.mp3'),
   new Audio('Aud/AudFiddle.mp3'),
-  new Audio('Aud/AudDrums.mp3')
+  new Audio('Aud/AudPiano.mp3'),
+  new Audio('Aud/AudTrumpet.mp3'),
+  new Audio('Aud/AudDrums.mp3'),
+  new Audio('Aud/AudOrgan.mp3'),
+  new Audio('Aud/AudSynth.mp3')
+];
+
+// Arreglo de colores asociados a cada botón
+var coloresBotones = [
+  "#FF0000", // Color para el botón 0 (Guitar)
+  "#00FF00", // Color para el botón 1 (Guitar Bass)
+  "#0000FF", // Color para el botón 2 (Fiddle)
+  "#FFFF00", // Color para el botón 3 (Piano)
+  "#FF00FF", // Color para el botón 4 (Trumpet)
+  "#00FFFF", // Color para el botón 5 (Drums)
+  "#FFA500", // Color para el botón 6 (Organ)
+  "#FF0090", // Color para el botón 7 (Synth)
 ];
 
 // Variables para controlar el estado de reproducción de cada audio
-var reproduciendo1 = false;
-var reproduciendo2 = false;
-var reproduciendo3 = false;
-var reproduciendo4 = false;
-var reproduciendo5 = false;
-var reproduciendo6 = false;
-var reproduciendo7 = false;
-var reproduciendo8 = false;
+var reproduciendo = [false, false, false, false, false, false, false, false];
 
 // Variable para controlar el cooldown
 let cooldown = false;
@@ -28,39 +33,72 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
 /**
- * Función para generar un color aleatorio en formato RGB
- * @method getRandomColor de la función
- * return color
- */
-function getRandomColor() {
-  // Variables para generar colores aleatorios
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-/**
- * Función para dibujar puntos aleatorios de diferentes colores
+ * Función para dibujar puntos aleatorios y mezclar los colores cuando varios audios se reproducen al mismo tiempo
  * @method drawRandomPoints de la función
  */
 function drawRandomPoints() {
+  // Si no hay reproducción en curso, detener el dibujo del lienzo
+  if (!reproduciendo.includes(true)) {
+    return;
+  }
+
   // Limpiar el lienzo
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Generar puntos aleatorios y dibujarlos
-  for (var i = 0; i < 100; i++) {
-      var x = Math.random() * canvas.width;
-      var y = Math.random() * canvas.height;
-      var color = getRandomColor();
+  // Variable para almacenar el color resultante de la mezcla
+  var mixedColor = { r: 0, g: 0, b: 0 };
 
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, 5, 0, 2 * Math.PI);
-      ctx.fill();
+  // Obtener la cantidad de audios en reproducción
+  var activeAudioCount = 0;
+
+  // Calcular la suma de los componentes RGB de los colores de los audios en reproducción
+  for (var i = 0; i < audio.length; i++) {
+    if (reproduciendo[i]) {
+      var buttonIndex = i;
+      var color = coloresBotones[buttonIndex];
+      var rgb = hexToRgb(color);
+      mixedColor.r += rgb.r;
+      mixedColor.g += rgb.g;
+      mixedColor.b += rgb.b;
+      activeAudioCount++;
+    }
   }
+
+  // Calcular el color promedio para obtener el color resultante de la mezcla
+  if (activeAudioCount > 0) {
+    mixedColor.r = Math.floor(mixedColor.r / activeAudioCount);
+    mixedColor.g = Math.floor(mixedColor.g / activeAudioCount);
+    mixedColor.b = Math.floor(mixedColor.b / activeAudioCount);
+  }
+
+  // Dibujar los puntos con el color resultante de la mezcla
+  for (var i = 0; i < 100; i++) {
+    var x = Math.random() * canvas.width;
+    var y = Math.random() * canvas.height;
+
+    ctx.fillStyle = `rgb(${mixedColor.r}, ${mixedColor.g}, ${mixedColor.b})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // Solicitar el siguiente ciclo de repintado solo si hay reproducción en curso
+  requestAnimationFrame(drawRandomPoints);
+}
+
+/**
+ * Función para convertir un color en formato hexadecimal a RGB
+ * @method hexToRgb de la función
+ * @param {string} hex - Color en formato hexadecimal
+ * @returns {object} - Objeto con las componentes RGB del color
+ */
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
 }
 
 /**
@@ -94,242 +132,59 @@ function mostrarBarra() {
 }
 
 /**
- * Controla la reproducción y pausa del primer audio
- * @method funcion1 de la función
+ * Función para controlar la reproducción de un audio
+ * @method toggleAudio de la función
+ * @param {number} index - Índice del audio en el arreglo "audio"
+ * @param {string} buttonId - Id del botón que controla el audio
  */
-function funcion1() {
-  if (!cooldown) {
-    if (!reproduciendo1) {
-      // Reproducir el primer audio en loop
-      audio[0].play();
-      audio[0].loop = true;
-      reproduciendo1 = true;
-      document.getElementById('sonido1').textContent = 'Detener';
+function toggleAudio(index, buttonId) {
+  if(index >= 0 && index < audio.length) {
+      if (!cooldown) {
+        if (!reproduciendo[index]) {
+          audio[index].play();
+          audio[index].loop = true;
+          reproduciendo[index] = true;
+          document.getElementById(buttonId).textContent = 'Detener';
 
-      mostrarBarra();
-      drawRandomPoints();
-
-      // Activar el cooldown por 3 segundos para mantener el ritmo
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      // Detener la reproducción del primer audio
-      audio[0].pause();
-      audio[0].loop = false;
-      reproduciendo1 = false;
-      audio[0].currentTime = 0;
-      document.getElementById('sonido1').textContent = 'Guitar';
-    }
+          // Iniciar el dibujo del lienzo solo cuando se inicia la reproducción del audio
+          drawRandomPoints();
+          
+        } else {
+          audio[index].pause();
+          audio[index].loop = false;
+          reproduciendo[index] = false;
+          audio[index].currentTime = 0;
+          document.getElementById(buttonId).textContent = getAudioName(index);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    
+        mostrarBarra();
+    
+        // Activar el cooldown por 3 segundos para mantener el ritmo
+        cooldown = true;
+        setTimeout(() => {
+          cooldown = false;
+        }, 3000);
+      }
+  } else {
+      console.error("Indice de audio fuera del rango del arreglo.");
   }
 }
 
 /**
- * Función para controlar el segundo audio
- * @method funcion2 de la función
+ * Función para obtener el nombre del audio basado en su índice
+ * @method getAudioName de la función
+ * @param {number} index - Índice del audio en el arreglo "audio"
+ * @returns {string} - Nombre del audio
  */
-function funcion2() {
-  if (!cooldown) {
-    if (!reproduciendo2) {
-      audio[2].play();
-      audio[2].loop = true;
-      reproduciendo2 = true;
-      document.getElementById('sonido2').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[2].pause();
-      audio[2].loop = false;
-      reproduciendo2 = false;
-      audio[2].currentTime = 0;
-      document.getElementById('sonido2').textContent = 'Guitar Bass';
-    }
-  }
+function getAudioName(index) {
+  var nombres = ['Guitar', 'Guitar Bass', 'Fiddle', 'Piano', 'Trumpet', 'Drums', 'Organ', 'Synth'];
+  return nombres[index];
 }
 
-// Las funciones funcion3(), funcion4(), ..., funcion8() siguen un patrón similar a funcion2()
-// Controlan la reproducción y pausa de los audios restantes (3-8) y actualizan el texto del botón correspondiente.
-
-/**
- * Función para controlar el tercer audio
- * @method funcion3 de la función
- */
-function funcion3() {
-  if (!cooldown) {
-    if (!reproduciendo3) {
-      audio[6].play();
-      audio[6].loop = true;
-      reproduciendo3 = true;
-      document.getElementById('sonido3').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[6].pause();
-      audio[6].loop = false;
-      reproduciendo3 = false;
-      audio[6].currentTime = 0;
-      document.getElementById('sonido3').textContent = 'Fiddle';
-    }
-  }
-}
-
-// Las funciones funcion4(), funcion5(), ..., funcion8() siguen un patrón similar a funcion3()
-// Controlan la reproducción y pausa de los audios restantes (4-8) y actualizan el texto del botón correspondiente.
-
-/**
- * Función para controlar el cuarto audio
- * @method funcion4 de la función
- */
-function funcion4() {
-  if (!cooldown) {
-    if (!reproduciendo4) {
-      audio[1].play();
-      audio[1].loop = true;
-      reproduciendo4 = true;
-      document.getElementById('sonido4').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[1].pause();
-      audio[1].loop = false;
-      reproduciendo4 = false;
-      audio[1].currentTime = 0;
-      document.getElementById('sonido4').textContent = 'Piano';
-    }
-  }
-}
-
-/**
- * Función para controlar el quinto audio
- * @method funcion5 de la función
- */
-function funcion5() {
-  if (!cooldown) {
-    if (!reproduciendo5) {
-      audio[5].play();
-      audio[5].loop = true;
-      reproduciendo5 = true;
-      document.getElementById('sonido5').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[5].pause();
-      audio[5].loop = false;
-      reproduciendo5 = false;
-      audio[5].currentTime = 0;
-      document.getElementById('sonido5').textContent = 'Trumpet';
-    }
-  }
-}
-
-/**
- * Función para controlar el sexto audio
- * @method funcion6 de la función
- */
-function funcion6() {
-  if (!cooldown) {
-    if (!reproduciendo6) {
-      audio[7].play();
-      audio[7].loop = true;
-      reproduciendo6 = true;
-      document.getElementById('sonido6').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[7].pause();
-      audio[7].loop = false;
-      reproduciendo6 = false;
-      audio[7].currentTime = 0;
-      document.getElementById('sonido6').textContent = 'Drums';
-    }
-  }
-}
-
-/**
- * Función para controlar el séptimo audio
- * @method funcion7 de la función
- */
-function funcion7() {
-  if (!cooldown) {
-    if (!reproduciendo7) {
-      audio[3].play();
-      audio[3].loop = true;
-      reproduciendo7 = true;
-      document.getElementById('sonido7').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[3].pause();
-      audio[3].loop = false;
-      reproduciendo7 = false;
-      audio[3].currentTime = 0;
-      document.getElementById('sonido7').textContent = 'Synth';
-    }
-  }
-}
-
-/**
- * Función para controlar el octavo audio
- * @method funcion8 de la función
- */
-function funcion8() {
-  if (!cooldown) {
-    if (!reproduciendo8) {
-      audio[4].play();
-      audio[4].loop = true;
-      reproduciendo8 = true;
-      document.getElementById('sonido8').textContent = 'Detener';
-
-      mostrarBarra();
-      drawRandomPoints();
-
-      cooldown = true;
-      setTimeout(() => {
-        cooldown = false;
-      }, 3000);
-    } else {
-      audio[4].pause();
-      audio[4].loop = false;
-      reproduciendo8 = false;
-      audio[4].currentTime = 0;
-      document.getElementById('sonido8').textContent = 'Organ';
-    }
-  }
+// Asignar eventos a los botones
+for (let i = 0; i < 8; i++) {
+  document.getElementById('sonido' + i).addEventListener('click', function () {
+    toggleAudio(i, 'sonido' + i);
+  });
 }

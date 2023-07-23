@@ -17,7 +17,6 @@
         <header>
             <div class="canvas_container">
                 <canvas class="visualizer" id="myCanvas" width="500" height="300"></canvas>
-                <script src="script.js"></script>
             </div>
 
         </header>
@@ -31,56 +30,56 @@
                 <div class="item">
                     <img src="imagenes/items 1-9/item-1.png" alt="Guitar">
                     <div class="overlay">
-                        <button id="sonido1" onclick="funcion1()">Guitar</button>
+                        <button id="sonido0" onclick="toggleAudio(0, 'sonido0')">Guitar</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-2.png" alt="Bass Guitar">
                     <div class="overlay">
-                        <button id="sonido2" onclick="funcion2()">Bass Guitar</button>
+                        <button id="sonido1" onclick="toggleAudio(1, 'sonido1')">Bass Guitar</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-3.png" alt="Fiddle">
                     <div class="overlay">
-                        <button id="sonido3" onclick="funcion3()">Fiddle</button>
+                        <button id="sonido2" onclick="toggleAudio(2, 'sonido2')">Fiddle</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-4.png" alt="Piano">
                     <div class="overlay">
-                        <button id="sonido4" onclick="funcion4()">Piano</button>
+                        <button id="sonido3" onclick="toggleAudio(3, 'sonido3')">Piano</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-6.png" alt="Trumpet">
                     <div class="overlay">
-                        <button id="sonido5" onclick="funcion5()">Trumpet</button>
+                        <button id="sonido4" onclick="toggleAudio(4, 'sonido4')">Trumpet</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-7.png" alt="Drums">
                     <div class="overlay">
-                        <button id="sonido6" onclick="funcion6()">Drums</button>
+                        <button id="sonido5" onclick="toggleAudio(5, 'sonido5')">Drums</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-8.png" alt="Organ">
                     <div class="overlay">
-                        <button id="sonido7" onclick="funcion7()">Organ</button>
+                        <button id="sonido6" onclick="toggleAudio(6, 'sonido6')">Organ</button>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="imagenes/items 1-9/item-9.png" alt="Synth">
                     <div class="overlay">
-                        <button id="sonido8" onclick="funcion8()">Synth</button>
+                        <button id="sonido7" onclick="toggleAudio(7, 'sonido7')">Synth</button>
                     </div>
                 </div>
             </div>
@@ -89,5 +88,7 @@
     <footer class="principal">
         <a href="index.html" target="_blank">¡Back!</a>
     </footer>
+
+    <script src="script2.js"></script>
 </body>
 </html>
